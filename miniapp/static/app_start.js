@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     buttons.forEach(button => {
         button.addEventListener('click', function() {
             console.log('Button clicked:', this.textContent);
-            alert('You have selected ' + this.textContent);
             window.location.href = 'app_session.html';
         });
     });
