@@ -9,7 +9,7 @@ function validateAnswer() {
     if (btnCheck) {
         btnCheck.addEventListener('click', function () {
 
-            const question = document.getElementById('input-question').textContent;
+            const question = document.getElementById('input-question').textContent.split(' ')[1].trim();
             const answer = document.getElementById('input-answer').value;
 
             if (answer.trim() === '') {
@@ -18,11 +18,15 @@ function validateAnswer() {
             }
             else {
                 const translation = fetchTranslation(question.trim());
-
-                if (translation.toLowerCase() === answer.trim().toLowerCase()) {
-                    alert('Correct answer!');
-                } else {
-                    alert(`Incorrect answer! The correct translation is: "${translation}"`);
+                const validation = validate(translation, answer);
+                
+                if (validation) {
+                    // document.getElementById('input-answer').textContent = 'Correct!';
+                    document.getElementById('input-answer').style.color = 'green';
+                }
+                else {
+                    // document.getElementById('input-answer').textContent = `Incorrect! The correct answer is: ${translation}`;
+                    document.getElementById('input-answer').style.color = 'red';
                 }
             }
         });
@@ -30,127 +34,130 @@ function validateAnswer() {
 }
 
 function fetchTranslation(word) {
-    const germanA1Nouns = {
+    const englishToGermanA1Nouns = {
         // People & Family
-        "der Mann": "man",
-        "die Frau": "woman",
-        "das Kind": "child",
-        "der Junge": "boy",
-        "das Mädchen": "girl",
-        "der Vater": "father",
-        "die Mutter": "mother",
-        "der Bruder": "brother",
-        "die Schwester": "sister",
-        "die Familie": "family",
+        "man": "der Mann",
+        "woman": "die Frau",
+        "child": "das Kind",
+        "boy": "der Junge",
+        "girl": "das Mädchen",
+        "father": "der Vater",
+        "mother": "die Mutter",
+        "brother": "der Bruder",
+        "sister": "die Schwester",
+        "family": "die Familie",
 
         // Home & Furniture
-        "das Haus": "house",
-        "die Wohnung": "apartment",
-        "das Zimmer": "room",
-        "die Tür": "door",
-        "das Fenster": "window",
-        "der Tisch": "table",
-        "der Stuhl": "chair",
-        "das Bett": "bed",
-        "der Schrank": "cupboard",
-        "die Lampe": "lamp",
+        "house": "das Haus",
+        "apartment": "die Wohnung",
+        "room": "das Zimmer",
+        "door": "die Tür",
+        "window": "das Fenster",
+        "table": "der Tisch",
+        "chair": "der Stuhl",
+        "bed": "das Bett",
+        "cupboard": "der Schrank",
+        "lamp": "die Lampe",
 
         // Time & Days
-        "der Tag": "day",
-        "die Woche": "week",
-        "das Jahr": "year",
-        "die Stunde": "hour",
-        "die Minute": "minute",
-        "der Montag": "Monday",
-        "der Dienstag": "Tuesday",
-        "der Mittwoch": "Wednesday",
-        "der Donnerstag": "Thursday",
-        "der Freitag": "Friday",
+        "day": "der Tag",
+        "week": "die Woche",
+        "year": "das Jahr",
+        "hour": "die Stunde",
+        "minute": "die Minute",
+        "Monday": "der Montag",
+        "Tuesday": "der Dienstag",
+        "Wednesday": "der Mittwoch",
+        "Thursday": "der Donnerstag",
+        "Friday": "der Freitag",
 
         // Travel & Places
-        "die Stadt": "city",
-        "das Dorf": "village",
-        "die Straße": "street",
-        "die Schule": "school",
-        "die Universität": "university",
-        "der Park": "park",
-        "der Bahnhof": "train station",
-        "der Flughafen": "airport",
-        "das Hotel": "hotel",
-        "das Geschäft": "shop",
+        "city": "die Stadt",
+        "village": "das Dorf",
+        "street": "die Straße",
+        "school": "die Schule",
+        "university": "die Universität",
+        "park": "der Park",
+        "train station": "der Bahnhof",
+        "airport": "der Flughafen",
+        "hotel": "das Hotel",
+        "shop": "das Geschäft",
 
         // Food & Drinks
-        "das Brot": "bread",
-        "die Butter": "butter",
-        "der Käse": "cheese",
-        "der Apfel": "apple",
-        "die Banane": "banana",
-        "die Milch": "milk",
-        "das Wasser": "water",
-        "der Saft": "juice",
-        "der Kaffee": "coffee",
-        "der Tee": "tea",
+        "bread": "das Brot",
+        "butter": "die Butter",
+        "cheese": "der Käse",
+        "apple": "der Apfel",
+        "banana": "die Banane",
+        "milk": "die Milch",
+        "water": "das Wasser",
+        "juice": "der Saft",
+        "coffee": "der Kaffee",
+        "tea": "der Tee",
 
         // Everyday Activities
-        "das Essen": "food",
-        "das Frühstück": "breakfast",
-        "das Mittagessen": "lunch",
-        "das Abendessen": "dinner",
-        "der Einkauf": "shopping",
-        "der Sport": "sport",
-        "das Spiel": "game",
-        "der Film": "film",
-        "das Lied": "song",
-        "die Arbeit": "work",
+        "food": "das Essen",
+        "breakfast": "das Frühstück",
+        "lunch": "das Mittagessen",
+        "dinner": "das Abendessen",
+        "shopping": "der Einkauf",
+        "sport": "der Sport",
+        "game": "das Spiel",
+        "film": "der Film",
+        "song": "das Lied",
+        "work": "die Arbeit",
 
         // Clothing
-        "das Hemd": "shirt",
-        "die Hose": "pants",
-        "das Kleid": "dress",
-        "der Rock": "skirt",
-        "die Jacke": "jacket",
-        "der Mantel": "coat",
-        "der Schuh": "shoe",
-        "die Socke": "sock",
-        "der Hut": "hat",
-        "die Bluse": "blouse",
+        "shirt": "das Hemd",
+        "pants": "die Hose",
+        "dress": "das Kleid",
+        "skirt": "der Rock",
+        "jacket": "die Jacke",
+        "coat": "der Mantel",
+        "shoe": "der Schuh",
+        "sock": "die Socke",
+        "hat": "der Hut",
+        "blouse": "die Bluse",
 
         // Body & Health
-        "der Kopf": "head",
-        "das Auge": "eye",
-        "das Ohr": "ear",
-        "die Nase": "nose",
-        "der Mund": "mouth",
-        "der Arm": "arm",
-        "das Bein": "leg",
-        "der Fuß": "foot",
-        "die Hand": "hand",
-        "das Herz": "heart",
+        "head": "der Kopf",
+        "eye": "das Auge",
+        "ear": "das Ohr",
+        "nose": "die Nase",
+        "mouth": "der Mund",
+        "arm": "der Arm",
+        "leg": "das Bein",
+        "foot": "der Fuß",
+        "hand": "die Hand",
+        "heart": "das Herz",
 
         // Technology & Media
-        "das Handy": "cellphone",
-        "der Computer": "computer",
-        "der Fernseher": "TV",
-        "das Radio": "radio",
-        "die Kamera": "camera",
-        "das Internet": "internet",
-        "die E-Mail": "email",
-        "die Nachricht": "message",
-        "das Telefon": "telephone",
-        "das Ladegerät": "charger",
+        "cellphone": "das Handy",
+        "computer": "der Computer",
+        "TV": "der Fernseher",
+        "radio": "das Radio",
+        "camera": "die Kamera",
+        "internet": "das Internet",
+        "email": "die E-Mail",
+        "message": "die Nachricht",
+        "telephone": "das Telefon",
+        "charger": "das Ladegerät",
 
         // Weather & Nature
-        "die Sonne": "sun",
-        "der Regen": "rain",
-        "der Schnee": "snow",
-        "der Wind": "wind",
-        "die Wolke": "cloud",
-        "der Himmel": "sky",
-        "der Baum": "tree",
-        "die Blume": "flower",
-        "das Wasser": "water",
-        "der Berg": "mountain"
+        "sun": "die Sonne",
+        "rain": "der Regen",
+        "snow": "der Schnee",
+        "wind": "der Wind",
+        "cloud": "die Wolke",
+        "sky": "der Himmel",
+        "tree": "der Baum",
+        "flower": "die Blume",
+        "mountain": "der Berg"
     };
 
-    return germanA1Nouns[word] || "Translation not found";
+    return englishToGermanA1Nouns[word] || "Translation not found";
+}
+
+function validate(answer, input) {
+    return answer.toLowerCase() === input.toLowerCase();
 }
