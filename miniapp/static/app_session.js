@@ -22,11 +22,13 @@ function validateAnswer() {
                 
                 if (validation) {
                     // document.getElementById('input-answer').textContent = 'Correct!';
-                    document.getElementById('input-answer').style.color = 'green';
+                    document.getElementById('input-answer').style.color = '#58cc06';
+                    playCorrectSound();
                 }
                 else {
                     // document.getElementById('input-answer').textContent = `Incorrect! The correct answer is: ${translation}`;
                     document.getElementById('input-answer').style.color = 'red';
+                    playIncorrectSound();
                 }
             }
         });
@@ -160,4 +162,60 @@ function fetchTranslation(word) {
 
 function validate(answer, input) {
     return answer.toLowerCase() === input.toLowerCase();
+}
+
+function playCorrectSound() {
+    // Create an audio context for playing sounds
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    // Create a pleasant success sound using Web Audio API
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    // Configure the sound - a pleasant ascending chime
+    oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+    oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
+    oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
+    
+    oscillator.type = 'sine';
+    
+    // Configure volume envelope
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.05);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    
+    // Play the sound
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.5);
+}
+
+function playIncorrectSound() {
+    // Create an audio context for playing sounds
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    // Create a pleasant error sound using Web Audio API
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    // Configure the sound - a descending tone
+    oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4
+    oscillator.frequency.setValueAtTime(349.23, audioContext.currentTime + 0.1); // F4
+    oscillator.frequency.setValueAtTime(261.63, audioContext.currentTime + 0.2); // C4
+    
+    oscillator.type = 'sine';
+    
+    // Configure volume envelope
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.05);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    
+    // Play the sound
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.5);
 }
