@@ -90,7 +90,7 @@ p {
 }
 
 .cont-notification {
-    display: flex;
+    
     font-size: normal;
     justify-content: center;
     align-items: start;
@@ -98,6 +98,7 @@ p {
 
 .cont-notification p {
     margin: 0px;
+    text-align: center;
 }
 
 .cont-question,

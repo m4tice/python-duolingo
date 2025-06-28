@@ -3,7 +3,14 @@ document.addEventListener('DOMContentLoaded', function() {
     buttons.forEach(button => {
         button.addEventListener('click', function() {
             console.log('Button clicked:', this.textContent);
-            window.location.href = 'app_session.html';
+            
+            if (this.id === 'de-button') {
+                window.location.href = 'app_session_de.html';
+            } else if (this.id === 'cn-button') {
+                window.location.href = 'app_session_cn.html';
+            } else {
+                // Do nothing
+            }
         });
     });
 });

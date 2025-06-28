@@ -1,126 +1,195 @@
 // Global constants
 const btnCheck = document.getElementById('btn-check');
 
-const englishToGermanA1Nouns = {
-    // People & Family
-    "man": "der Mann",
-    "woman": "die Frau",
-    "child": "das Kind",
-    "boy": "der Junge",
-    "girl": "das Mädchen",
-    "father": "der Vater",
-    "mother": "die Mutter",
-    "brother": "der Bruder",
-    "sister": "die Schwester",
-    "family": "die Familie",
-
-    // Home & Furniture
-    "house": "das Haus",
-    "apartment": "die Wohnung",
-    "room": "das Zimmer",
-    "door": "die Tür",
-    "window": "das Fenster",
-    "table": "der Tisch",
-    "chair": "der Stuhl",
-    "bed": "das Bett",
-    "cupboard": "der Schrank",
-    "lamp": "die Lampe",
-
-    // Time & Days
-    "day": "der Tag",
-    "week": "die Woche",
-    "year": "das Jahr",
-    "hour": "die Stunde",
-    "minute": "die Minute",
-    "Monday": "der Montag",
-    "Tuesday": "der Dienstag",
-    "Wednesday": "der Mittwoch",
-    "Thursday": "der Donnerstag",
-    "Friday": "der Freitag",
-
-    // Travel & Places
-    "city": "die Stadt",
-    "village": "das Dorf",
-    "street": "die Straße",
-    "school": "die Schule",
-    "university": "die Universität",
-    "park": "der Park",
-    "train station": "der Bahnhof",
-    "airport": "der Flughafen",
-    "hotel": "das Hotel",
-    "shop": "das Geschäft",
-
-    // Food & Drinks
-    "bread": "das Brot",
-    "butter": "die Butter",
-    "cheese": "der Käse",
-    "apple": "der Apfel",
-    "banana": "die Banane",
-    "milk": "die Milch",
-    "water": "das Wasser",
-    "juice": "der Saft",
-    "coffee": "der Kaffee",
-    "tea": "der Tee",
-
-    // Everyday Activities
-    "food": "das Essen",
-    "breakfast": "das Frühstück",
-    "lunch": "das Mittagessen",
-    "dinner": "das Abendessen",
-    "shopping": "der Einkauf",
-    "sport": "der Sport",
-    "game": "das Spiel",
-    "film": "der Film",
-    "song": "das Lied",
-    "work": "die Arbeit",
-
-    // Clothing
-    "shirt": "das Hemd",
-    "pants": "die Hose",
-    "dress": "das Kleid",
-    "skirt": "der Rock",
-    "jacket": "die Jacke",
-    "coat": "der Mantel",
-    "shoe": "der Schuh",
-    "sock": "die Socke",
-    "hat": "der Hut",
-    "blouse": "die Bluse",
-
-    // Body & Health
-    "head": "der Kopf",
-    "eye": "das Auge",
-    "ear": "das Ohr",
-    "nose": "die Nase",
-    "mouth": "der Mund",
-    "arm": "der Arm",
-    "leg": "das Bein",
-    "foot": "der Fuß",
-    "hand": "die Hand",
-    "heart": "das Herz",
-
-    // Technology & Media
-    "cellphone": "das Handy",
-    "computer": "der Computer",
-    "TV": "der Fernseher",
-    "radio": "das Radio",
-    "camera": "die Kamera",
-    "internet": "das Internet",
-    "email": "die E-Mail",
-    "message": "die Nachricht",
-    "telephone": "das Telefon",
-    "charger": "das Ladegerät",
-
-    // Weather & Nature
-    "sun": "die Sonne",
-    "rain": "der Regen",
-    "snow": "der Schnee",
-    "wind": "der Wind",
-    "cloud": "die Wolke",
-    "sky": "der Himmel",
-    "tree": "der Baum",
-    "flower": "die Blume",
-    "mountain": "der Berg"
+// English to Chinese HSK 1 nouns
+const hsk1EnglishToChineseNouns = {
+    "person": "人",
+    "I": "我",
+    "you": "你",
+    "he": "他",
+    "she": "她",
+    "we": "我们",
+    "you (pl.)": "你们",
+    "they": "他们",
+    "this": "这",
+    "that": "那",
+    "mother": "妈妈",
+    "father": "爸爸",
+    "older brother": "哥哥",
+    "younger brother": "弟弟",
+    "older sister": "姐姐",
+    "younger sister": "妹妹",
+    "family": "家",
+    "friend": "朋友",
+    "teacher": "老师",
+    "student": "学生",
+    "classroom": "教室",
+    "school": "学校",
+    "university": "大学",
+    "book": "书",
+    "pen": "笔",
+    "paper": "纸",
+    "desk": "桌子",
+    "chair": "椅子",
+    "phone": "电话",
+    "cell phone": "手机",
+    "computer": "电脑",
+    "name": "名字",
+    "word": "词",
+    "sentence": "句子",
+    "question": "问题",
+    "answer": "答案",
+    "number": "数字",
+    "time": "时间",
+    "day": "天",
+    "week": "星期",
+    "month": "月",
+    "year": "年",
+    "today": "今天",
+    "yesterday": "昨天",
+    "tomorrow": "明天",
+    "morning": "早上",
+    "noon": "中午",
+    "afternoon": "下午",
+    "evening": "晚上",
+    "now": "现在",
+    "weekend": "周末",
+    "month (calendar)": "月份",
+    "water": "水",
+    "tea": "茶",
+    "coffee": "咖啡",
+    "juice": "果汁",
+    "milk": "牛奶",
+    "rice": "米饭",
+    "noodle": "面条",
+    "bread": "面包",
+    "egg": "蛋",
+    "apple": "苹果",
+    "banana": "香蕉",
+    "orange": "橙子",
+    "grape": "葡萄",
+    "pear": "梨",
+    "watermelon": "西瓜",
+    "fish": "鱼",
+    "meat": "肉",
+    "chicken": "鸡肉",
+    "vegetable": "蔬菜",
+    "soup": "汤",
+    "tea (meal)": "茶",
+    "coffee shop": "咖啡馆",
+    "restaurant": "饭店",
+    "market": "商场",
+    "store": "商店",
+    "supermarket": "超市",
+    "hotel": "酒店",
+    "room": "房间",
+    "door": "门",
+    "window": "窗户",
+    "bed": "床",
+    "lamp": "灯",
+    "toilet": "厕所",
+    "bathroom": "浴室",
+    "kitchen": "厨房",
+    "living room": "客厅",
+    "car": "汽车",
+    "bus": "公共汽车",
+    "train": "火车",
+    "plane": "飞机",
+    "bike": "自行车",
+    "ticket": "票",
+    "hotel room": "房间",
+    "passport": "护照",
+    "money": "钱",
+    "bookstore": "书店",
+    "library": "图书馆",
+    "hospital": "医院",
+    "medicine": "药",
+    "doctor": "医生",
+    "teacher (uni)": "教授",
+    "student (uni)": "学生",
+    "class": "课",
+    "lesson": "课",
+    "home": "家",
+    "city": "城市",
+    "country": "国家",
+    "China": "中国",
+    "Beijing": "北京",
+    "Shanghai": "上海",
+    "English": "英语",
+    "Chinese": "汉语",
+    "English language": "英语",
+    "Chinese language": "中文",
+    "question word": "什么",
+    "who": "谁",
+    "where": "哪里",
+    "why": "为什么",
+    "how": "怎么",
+    "how much": "多少钱",
+    "yes": "是",
+    "no": "不是",
+    "also": "也",
+    "very": "很",
+    "too": "太",
+    "bit": "点儿",
+    "can": "可以",
+    "come": "来",
+    "go": "去",
+    "eat": "吃",
+    "drink": "喝",
+    "see": "看",
+    "listen": "听",
+    "read": "读",
+    "write": "写",
+    "sleep": "睡觉",
+    "get up": "起床",
+    "like": "喜欢",
+    "love": "爱",
+    "want": "要",
+    "need": "需要",
+    "see you": "再见",
+    "hello": "你好",
+    "thank you": "谢谢",
+    "sorry": "对不起",
+    "excuse me": "请",
+    "please": "请",
+    "good": "好",
+    "bad": "坏",
+    "big": "大",
+    "small": "小",
+    "hot": "热",
+    "cold": "冷",
+    "happy": "高兴",
+    "tired": "累",
+    "hungry": "饿",
+    "thirsty": "渴",
+    "bus station": "汽车站",
+    "train station": "火车站",
+    "airport": "机场",
+    "park": "公园",
+    "school (campus)": "校园",
+    "playground": "操场",
+    "book bag": "书包",
+    "computer room": "电脑室",
+    "dining room": "餐厅",
+    "cafeteria": "食堂",
+    "wallet": "钱包",
+    "watch (wrist)": "手表",
+    "glasses": "眼镜",
+    "clothes": "衣服",
+    "shoes": "鞋子",
+    "hat": "帽子",
+    "weather": "天气",
+    "sun": "太阳",
+    "rain": "雨",
+    "snow": "雪",
+    "cloud": "云",
+    "sky": "天",
+    "wind": "风",
+    "cold weather": "天气冷",
+    "hot weather": "天气热"
 };
+
+
 
 document.addEventListener('DOMContentLoaded', function () {
     renderPage();
@@ -130,8 +199,8 @@ document.addEventListener('DOMContentLoaded', function () {
 function renderPage() {
     resetPage();
     const inputQuestionCont = document.getElementById('input-question');
-    const randomQuestionKey = getRandomKeyFromMap(englishToGermanA1Nouns, 1);
-    inputQuestionCont.textContent = `the ${randomQuestionKey}`;
+    const randomQuestionKey = getRandomKeyFromMap(hsk1EnglishToChineseNouns, 1);
+    inputQuestionCont.textContent = `${randomQuestionKey}`;
 }
 
 function resetPage() {
@@ -158,7 +227,7 @@ function validateAnswer() {
         btnCheck.addEventListener('click', function () {
 
             // Text retrieval
-            const question = document.getElementById('input-question').textContent.split(' ')[1].trim();
+            const question = document.getElementById('input-question').textContent.trim();
             const answer = inputAnswer.value;
 
             console.log(`Question: ${question}, Answer: ${answer}`);
@@ -168,7 +237,7 @@ function validateAnswer() {
                 return;
             }
             else {
-                const translation = fetchTranslation(englishToGermanA1Nouns, question.toString().trim());
+                const translation = fetchTranslation(hsk1EnglishToChineseNouns, question.toString().trim());
                 const validation = validate(translation, answer);
 
                 console.log(notificationCont);
@@ -177,10 +246,10 @@ function validateAnswer() {
                     notificationCont.textContent = 'Correct!';
                     notificationCont.style.color = '#58cc06';
                     // document.getElementById('input-answer').style.color = '#58cc06';
-                    playCorrectSound();                 
+                    playCorrectSound();
                 }
                 else {
-                    notificationCont.textContent = "Incorrect. It's: '" + translation + "'";
+                    notificationCont.innerHTML = `Incorrect. It's: '${translation}'.<br>Your answer: ${answer}.`;
                     notificationCont.style.color = 'red';
                     // document.getElementById('input-answer').style.color = 'red';
                     playIncorrectSound();
@@ -205,7 +274,7 @@ function fetchTranslation(map, word) {
 }
 
 function validate(answer, input) {
-     // Remove spaces and convert to lowercase
+    // Remove spaces and convert to lowercase
     const processedAnswer = transformGermanWord(answer).replace(/\s+/g, '').toLowerCase();
     const processedInput = input.replace(/\s+/g, '').toLowerCase();
     console.log(`Validating: Answer - ${processedAnswer}, Input - ${processedInput}`);
