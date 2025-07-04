@@ -1,6 +1,9 @@
 // Global constants
 const btnCheck = document.getElementById('btn-check');
 
+let lives;
+let questions;
+
 const englishToGermanNouns = {    
     // People & Family
     "grandfather": "der Großvater",
@@ -260,9 +263,106 @@ const englishToGermanNouns = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    renderPage();
-    validateAnswer();
+    session();
 });
+
+function session(){
+    lives = 5;
+    questions = 0;
+
+    // Initial page render
+    renderPage();
+    
+    // Set up event listener for the check button
+    setupEventListeners();
+}
+
+function setupEventListeners() {
+    const btnCheck = document.getElementById('btn-check');
+    const inputAnswer = document.getElementById('input-answer');
+
+    if (btnCheck) {
+        btnCheck.addEventListener('click', function () {
+            handleAnswerCheck();
+        });
+    }
+
+    if (inputAnswer) {
+        inputAnswer.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                handleAnswerCheck();
+            }
+        });
+    }
+}
+
+function handleAnswerCheck() {
+    const inputAnswer = document.getElementById('input-answer');
+    const notificationCont = document.getElementsByClassName('notification-text')[0];
+
+    // Text retrieval
+    const question = document.getElementById('input-question').textContent.split(' ')[1].trim();
+    const answer = inputAnswer.value;
+
+    console.log(`Question: ${question}, Answer: ${answer}`);
+
+    if (answer.trim() === '') {
+        alert('Please fill in the answer field.');
+        return;
+    }
+
+    const translation = fetchTranslation(englishToGermanNouns, question.toString().trim());
+    const validation = validate(translation, answer);
+
+    console.log(notificationCont);
+
+    if (validation) {
+        notificationCont.textContent = 'Correct!';
+        notificationCont.style.color = '#58cc06';
+        playCorrectSound();
+    }
+    else {
+        const germanNotification = "Note: replace 'ä ö ü' with 'ae oe ue' and 'ß' with 'ss'.";
+        notificationCont.innerHTML = `Incorrect. It's: '${translation}'.<br>Your answer: ${answer}.<br>${germanNotification}`;
+        notificationCont.style.color = 'red';
+        playIncorrectSound();
+        lives--; // Decrease lives on incorrect answer
+    }
+    
+    /*
+    Q L D
+    0 0 F
+    0 1 T
+    1 0 F
+    1 1 T
+    */
+
+    // Increment question counter
+    questions++;
+    
+    console.log(`[DEBUG] Lives: ${lives}, Questions: ${questions}/10`);
+
+    if (lives > 0) {
+        // Check if we've reached 10 questions
+        if (questions >= 10) {
+            // Redirect to end page after a short delay
+            setTimeout(() => {
+                window.location.href = 'app_end.html';
+            }, 2000);
+        } else {
+            // Render a new question after a short delay
+            setTimeout(() => {
+                renderPage();
+            }, 1500);
+        }
+    } else {
+        // Redirect to end page if lives are exhausted
+        setTimeout(() => {
+            window.location.href = 'app_end.html';
+        }, 2000);
+    }
+}
 
 function renderPage() {
     resetPage();
@@ -288,53 +388,8 @@ function getRandomKeyFromMap(map, count) {
 }
 
 function validateAnswer() {
-    const inputAnswer = document.getElementById('input-answer');
-    const notificationCont = document.getElementsByClassName('notification-text')[0];
-
-    if (btnCheck) {
-        btnCheck.addEventListener('click', function () {
-
-            // Text retrieval
-            const question = document.getElementById('input-question').textContent.split(' ')[1].trim();
-            const answer = inputAnswer.value;
-
-            console.log(`Question: ${question}, Answer: ${answer}`);
-
-            if (answer.trim() === '') {
-                alert('Please fill in the answer field.');
-                return;
-            }
-            else {
-                const translation = fetchTranslation(englishToGermanNouns, question.toString().trim());
-                const validation = validate(translation, answer);
-
-                console.log(notificationCont);
-
-                if (validation) {
-                    notificationCont.textContent = 'Correct!';
-                    notificationCont.style.color = '#58cc06';
-                    // document.getElementById('input-answer').style.color = '#58cc06';
-                    playCorrectSound();
-                }
-                else {
-                    const germanNotification = "Note: replace 'ä ö ü' with 'ae oe ue' and 'ß' with 'ss'.";
-                    notificationCont.innerHTML = `Incorrect. It's: '${translation}'.<br>Your answer: ${answer}.<br>${germanNotification}`;
-                    notificationCont.style.color = 'red';
-                    // document.getElementById('input-answer').style.color = 'red';
-                    playIncorrectSound();
-                }
-
-                renderPage(); // Render a new question after checking the answer
-            }
-        });
-
-        inputAnswer.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                btnCheck.click();
-            }
-        });
-    }
+    // This function is now handled by handleAnswerCheck()
+    // Keeping for backward compatibility if called elsewhere
 }
 
 function fetchTranslation(map, word) {
