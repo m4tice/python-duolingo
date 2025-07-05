@@ -329,14 +329,6 @@ function handleAnswerCheck() {
         playIncorrectSound();
         lives--; // Decrease lives on incorrect answer
     }
-    
-    /*
-    Q L D
-    0 0 F
-    0 1 T
-    1 0 F
-    1 1 T
-    */
 
     // Increment question counter
     questions++;
