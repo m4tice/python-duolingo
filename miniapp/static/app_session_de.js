@@ -3,6 +3,8 @@ const btnCheck = document.getElementById('btn-check');
 
 let lives;
 let questions;
+let score = 0;
+const totalQuestions = 10; // Total number of questions in the game
 
 const englishToGermanNouns = {    
     // People & Family
@@ -321,6 +323,7 @@ function handleAnswerCheck() {
         notificationCont.textContent = 'Correct!';
         notificationCont.style.color = '#58cc06';
         playCorrectSound();
+        score++; // Increment correct answers
     }
     else {
         const germanNotification = "Note: replace 'ä ö ü' with 'ae oe ue' and 'ß' with 'ss'.";
@@ -328,19 +331,21 @@ function handleAnswerCheck() {
         notificationCont.style.color = 'red';
         playIncorrectSound();
         lives--; // Decrease lives on incorrect answer
+        const livesCont = document.getElementsByClassName('lives')[0];
+        livesCont.textContent = `${lives}`;
     }
 
     // Increment question counter
     questions++;
-    
-    console.log(`[DEBUG] Lives: ${lives}, Questions: ${questions}/10`);
 
     if (lives > 0) {
         // Check if we've reached 10 questions
-        if (questions >= 10) {
+        if (questions >= totalQuestions) {
             // Redirect to end page after a short delay
+            const endUrl = `app_end.html?score=${score}&total=${totalQuestions}`;
+            console.log('Redirecting to:', endUrl);
             setTimeout(() => {
-                window.location.href = 'app_end.html';
+                window.location.href = endUrl;
             }, 2000);
         } else {
             // Render a new question after a short delay
@@ -350,14 +355,17 @@ function handleAnswerCheck() {
         }
     } else {
         // Redirect to end page if lives are exhausted
+        const endUrl = `app_end.html?score=${score}&total=${questions}&status=lives_exhausted`;
+        console.log('Lives exhausted, redirecting to:', endUrl);
         setTimeout(() => {
-            window.location.href = 'app_end.html';
+            window.location.href = endUrl;
         }, 2000);
     }
 }
 
 function renderPage() {
     resetPage();
+    console.log(`[DEBUG] Lives: ${lives}, Questions: ${questions+1}/10`);
     const inputQuestionCont = document.getElementById('input-question');
     const randomQuestionKey = getRandomKeyFromMap(englishToGermanNouns, 1);
     inputQuestionCont.textContent = `the ${randomQuestionKey}`;
