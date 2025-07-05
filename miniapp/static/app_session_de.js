@@ -272,6 +272,9 @@ function session(){
     lives = 5;
     questions = 0;
 
+    // Initialize mobile features
+    initializeMobileFeatures();
+
     // Initialize progress bar
     updateProgressBar();
 
@@ -494,4 +497,38 @@ function updateProgressBar() {
         
         console.log(`[PROGRESS] Updated progress bar: ${questions}/${totalQuestions} (${progressPercentage.toFixed(1)}%)`);
     }
+}
+
+// Mobile-specific enhancements
+function initializeMobileFeatures() {
+    // Add touch feedback for buttons
+    const btnCheck = document.getElementById('btn-check');
+    if (btnCheck) {
+        btnCheck.addEventListener('touchstart', function(e) {
+            this.style.transform = 'scale(0.98)';
+        });
+        
+        btnCheck.addEventListener('touchend', function(e) {
+            this.style.transform = 'scale(1)';
+        });
+    }
+
+    // Prevent zoom on input focus on iOS
+    const inputAnswer = document.getElementById('input-answer');
+    if (inputAnswer) {
+        inputAnswer.addEventListener('touchstart', function(e) {
+            // Temporarily increase font size to prevent zoom
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                this.style.fontSize = '16px';
+            }
+        });
+    }
+
+    // Handle orientation changes
+    window.addEventListener('orientationchange', function() {
+        setTimeout(() => {
+            window.scrollTo(0, 0);
+            updateProgressBar(); // Refresh progress bar after orientation change
+        }, 100);
+    });
 }
