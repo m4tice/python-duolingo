@@ -272,6 +272,9 @@ function session(){
     lives = 5;
     questions = 0;
 
+    // Initialize progress bar
+    updateProgressBar();
+
     // Initial page render
     renderPage();
     
@@ -337,6 +340,9 @@ function handleAnswerCheck() {
 
     // Increment question counter
     questions++;
+
+    // Update the progress bar
+    updateProgressBar();
 
     if (lives > 0) {
         // Check if we've reached 10 questions
@@ -470,4 +476,22 @@ function playIncorrectSound() {
     // Play the sound
     oscillator.start(audioContext.currentTime);
     oscillator.stop(audioContext.currentTime + 0.5);
+}
+
+function updateProgressBar() {
+    const progressFill = document.getElementById('progress-fill');
+    const progressText = document.getElementById('progress-text');
+    
+    if (progressFill && progressText) {
+        // Calculate progress percentage
+        const progressPercentage = (questions / totalQuestions) * 100;
+        
+        // Update the progress bar fill width
+        progressFill.style.width = `${progressPercentage}%`;
+        
+        // Update the progress text
+        progressText.textContent = `${questions}/${totalQuestions}`;
+        
+        console.log(`[PROGRESS] Updated progress bar: ${questions}/${totalQuestions} (${progressPercentage.toFixed(1)}%)`);
+    }
 }
